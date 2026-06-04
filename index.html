@@ -2,294 +2,1957 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Adarsh Pandey | Data Science Portfolio</title>
+<title>Adarsh Pandey | Data Scientist & Cryptographer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Share+Tech+Mono&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
 :root {
-  --bg-dark: #020617;
-  --bg-main: #0f172a;
-  --glass: rgba(255,255,255,0.08);
-  --accent: #38bdf8;
-  --accent-glow: rgba(56,189,248,0.6);
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
+  --void:       #00050f;
+  --deep:       #010a18;
+  --surface:    #061428;
+  --glass:      rgba(0,180,255,0.06);
+  --rim:        rgba(0,180,255,0.18);
+  --neon:       #00c8ff;
+  --neon2:      #00ff9f;
+  --gold:       #c8a84b;
+  --ember:      #ff6b35;
+  --text:       #d4e8f0;
+  --muted:      #5a7a8a;
+  --font-head:  'Cinzel', serif;
+  --font-mono:  'Share Tech Mono', monospace;
+  --font-body:  'Crimson Pro', serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background:
-    radial-gradient(600px at 20% 10%, rgba(56,189,248,0.12), transparent 40%),
-    radial-gradient(800px at 80% 80%, rgba(99,102,241,0.12), transparent 40%),
-    radial-gradient(500px at 50% 50%, rgba(14,165,233,0.08), transparent 45%),
-    linear-gradient(135deg, #020617 0%, #020617 25%, #0b1120 50%, #020617 75%, #020617 100%);
-  color: var(--text-main);
-  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  background: var(--void);
+  color: var(--text);
+  cursor: none;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
-/* NAVBAR */
+/* ─── CUSTOM CURSOR ──────────────────────────────────────── */
+#cursor-head {
+  position: fixed;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--neon) 50%, transparent 100%);
+  box-shadow: 0 0 12px 4px var(--neon), 0 0 30px 8px rgba(0,200,255,0.4);
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s;
+  mix-blend-mode: screen;
+}
+
+#cursor-head.clicking {
+  width: 26px; height: 26px;
+}
+
+.trail-dot {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+}
+
+/* ─── NOISE OVERLAY ──────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.022;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── STAR FIELD ─────────────────────────────────────────── */
+#starfield {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* ─── FLOWING CIPHER RAIN ────────────────────────────────── */
+#cipher-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.07;
+  overflow: hidden;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
 nav {
   position: fixed;
   top: 0;
   width: 100%;
-  background: rgba(2,6,23,0.75);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
   display: flex;
-  justify-content: center;
-  gap: 36px;
-  padding: 16px;
-  z-index: 1000;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 50px;
+  background: rgba(0,5,15,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,200,255,0.1);
+  z-index: 9000;
 }
 
-nav a {
-  color: var(--text-main);
+.nav-logo {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px var(--neon);
+}
+
+.nav-logo span {
+  color: var(--gold);
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  color: var(--muted);
   text-decoration: none;
-  font-weight: 500;
-  letter-spacing: 0.4px;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s, text-shadow 0.3s;
   position: relative;
 }
 
-nav a::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -6px;
-  width: 0;
-  height: 2px;
-  background: var(--accent);
-  transform: translateX(-50%);
-  transition: width 0.3s ease;
+.nav-links a::before {
+  content: '//';
+  color: var(--neon);
+  opacity: 0;
+  margin-right: 4px;
+  transition: opacity 0.3s;
 }
 
-nav a:hover::after {
-  width: 100%;
+.nav-links a:hover {
+  color: var(--neon);
+  text-shadow: 0 0 12px var(--neon);
+}
+.nav-links a:hover::before { opacity: 1; }
+
+/* ─── CONTENT WRAPPER ────────────────────────────────────── */
+.page-wrap {
+  position: relative;
+  z-index: 10;
 }
 
-/* SECTIONS */
-section {
-  max-width: 1100px;
-  margin: auto;
-  padding: 120px 20px;
-  animation: fadeUp 1s ease forwards;
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* HERO */
+/* ─── HERO ───────────────────────────────────────────────── */
 .hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding-top: 180px;
+  padding: 100px 20px 60px;
+  position: relative;
 }
 
-.hero h1 {
-  font-size: clamp(2.6rem, 5vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -1px;
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+  color: var(--neon2);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.3s forwards;
 }
 
-.hero span {
-  color: var(--accent);
-  text-shadow: 0 0 25px var(--accent-glow);
+.hero-name {
+  font-family: var(--font-head);
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 0.95;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.6s forwards;
 }
 
-.hero p {
-  margin-top: 18px;
-  font-size: 1.15rem;
-  color: var(--text-muted);
+.hero-name .first { color: var(--text); }
+.hero-name .last {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--neon);
+  filter: drop-shadow(0 0 18px var(--neon));
 }
 
-/* GLASS CARD */
+.hero-tagline {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--muted);
+  margin-top: 28px;
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 0.9s forwards;
+}
+
+.hero-tagline em {
+  color: var(--gold);
+  font-style: normal;
+}
+
+.hero-cipher-bar {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(0,200,255,0.25);
+  letter-spacing: 4px;
+  margin-top: 40px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 1.2s forwards;
+}
+
+/* Password hint */
+.hint-strip {
+  margin-top: 56px;
+  padding: 14px 30px;
+  border: 1px solid rgba(200,168,75,0.3);
+  border-radius: 6px;
+  background: rgba(200,168,75,0.05);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gold);
+  letter-spacing: 2px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 1.5s forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.hint-strip::before {
+  content: '⚿ CIPHER HINT';
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  color: rgba(200,168,75,0.5);
+  margin-bottom: 6px;
+}
+
+.hint-strip .hint-glow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(200,168,75,0.06), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.scroll-cue {
+  position: absolute;
+  bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  animation: fadeSlideUp 1s 2s forwards;
+}
+
+.scroll-cue span {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 50px;
+  background: linear-gradient(to bottom, var(--neon), transparent);
+  animation: scrollPulse 2s infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ─── SECTION BASE ───────────────────────────────────────── */
+.section {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 110px 30px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 6px;
+  color: var(--neon);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.section-title {
+  font-family: var(--font-head);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  margin-bottom: 48px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: -10px;
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--neon), transparent);
+}
+
+/* ─── GLASS CARD ─────────────────────────────────────────── */
 .card {
-  background: linear-gradient(
-    145deg,
-    rgba(255,255,255,0.10),
-    rgba(255,255,255,0.04)
-  );
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 18px;
-  padding: 28px;
-  backdrop-filter: blur(14px);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.4s;
+  background: linear-gradient(135deg, rgba(0,200,255,0.07), rgba(0,5,15,0.4));
+  border: 1px solid var(--rim);
+  border-radius: 16px;
+  padding: 36px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(.23,1,.32,1), box-shadow 0.4s, border-color 0.4s;
+  backdrop-filter: blur(20px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 20%, rgba(0,200,255,0.06), transparent 60%);
+  pointer-events: none;
 }
 
 .card:hover {
-  transform: translateY(-12px) scale(1.01);
-  box-shadow:
-    0 30px 60px rgba(56,189,248,0.15),
-    inset 0 0 0 1px rgba(56,189,248,0.15);
-  border-color: rgba(56,189,248,0.4);
+  transform: translateY(-8px) scale(1.005);
+  box-shadow: 0 30px 80px rgba(0,200,255,0.15), 0 0 0 1px rgba(0,200,255,0.25);
+  border-color: rgba(0,200,255,0.4);
 }
 
-/* HEADINGS */
-h2 {
-  font-size: 1.9rem;
-  font-weight: 700;
-  margin-bottom: 10px;
+.card-corner {
+  position: absolute;
+  top: 12px; right: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: rgba(0,200,255,0.2);
+  letter-spacing: 2px;
 }
 
-h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-/* SKILLS */
-.skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-}
-
-.skill {
-  padding: 9px 16px;
-  border-radius: 999px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(56,189,248,0.25),
-      rgba(56,189,248,0.05)
-    );
-  color: var(--accent);
-  font-size: 0.9rem;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  border: 1px solid rgba(56,189,248,0.35);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.skill:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px rgba(56,189,248,0.25);
-}
-
-/* GRID */
-.grid {
+/* ─── ABOUT ──────────────────────────────────────────────── */
+.about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: 1fr 1fr;
   gap: 28px;
 }
 
-/* LINKS */
-a {
-  color: var(--accent);
+.about-card-main p {
+  font-size: 1.1rem;
+  line-height: 1.85;
+  color: var(--text);
+  font-weight: 300;
+}
+
+.about-card-main strong {
+  color: var(--neon);
+  font-weight: 600;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.stat-box {
+  background: var(--glass);
+  border: 1px solid rgba(0,200,255,0.12);
+  border-radius: 12px;
+  padding: 22px 18px;
+  text-align: center;
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.stat-box:hover {
+  border-color: var(--neon);
+  background: rgba(0,200,255,0.1);
+}
+
+.stat-num {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  color: var(--neon);
+  text-shadow: 0 0 20px var(--neon);
+  display: block;
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ─── SKILLS ─────────────────────────────────────────────── */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.skill-category h4 {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  color: var(--neon2);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0,255,159,0.2);
+}
+
+.skill-pill {
+  display: inline-block;
+  padding: 7px 14px;
+  margin: 5px 4px;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  cursor: default;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-pill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s;
+}
+
+.skill-pill:hover::before { transform: translateX(100%); }
+
+.pill-blue {
+  background: rgba(0,200,255,0.1);
+  border: 1px solid rgba(0,200,255,0.3);
+  color: var(--neon);
+}
+
+.pill-green {
+  background: rgba(0,255,159,0.08);
+  border: 1px solid rgba(0,255,159,0.25);
+  color: var(--neon2);
+}
+
+.pill-gold {
+  background: rgba(200,168,75,0.1);
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--gold);
+}
+
+.skill-pill:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,200,255,0.2);
+}
+
+/* ─── PROJECTS ───────────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 26px;
+}
+
+.project-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.project-icon {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.project-card h3 {
+  font-family: var(--font-head);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.project-card p {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: var(--neon);
+  border: 1px solid rgba(0,200,255,0.25);
+  padding: 3px 10px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.project-num {
+  position: absolute;
+  top: 18px; right: 20px;
+  font-family: var(--font-head);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: rgba(0,200,255,0.04);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ─── CONTACT ────────────────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 24px;
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  background: var(--glass);
   text-decoration: none;
+  transition: all 0.35s cubic-bezier(.23,1,.32,1);
+  color: inherit;
 }
 
-a:hover {
-  text-decoration: underline;
+.contact-item:hover {
+  border-color: var(--neon);
+  background: rgba(0,200,255,0.1);
+  transform: translateX(8px);
+  text-decoration: none;
+  box-shadow: -4px 0 30px rgba(0,200,255,0.15), 4px 4px 0 rgba(0,200,255,0.1);
 }
 
-/* FOOTER */
+.contact-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: rgba(0,200,255,0.08);
+  border: 1px solid rgba(0,200,255,0.2);
+  flex-shrink: 0;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.contact-item:hover .contact-icon {
+  background: rgba(0,200,255,0.18);
+  border-color: var(--neon);
+}
+
+.contact-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 3px;
+}
+
+.contact-value {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
 footer {
   text-align: center;
-  padding: 40px 20px;
-  color: var(--text-muted);
+  padding: 50px 20px;
+  border-top: 1px solid rgba(0,200,255,0.08);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-logo {
+  font-family: var(--font-head);
   font-size: 0.9rem;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: rgba(90,122,138,0.5);
+}
+
+/* ─── CAVE DOOR BUTTON ───────────────────────────────────── */
+#cave-btn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8000;
+  cursor: none;
+}
+
+.cave-handle {
+  width: 56px;
+  background: linear-gradient(180deg, #1a0e00, #0a0500, #1a0e00);
+  border: 1px solid rgba(200,168,75,0.35);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  box-shadow: -4px 0 30px rgba(200,100,0,0.2), inset 0 1px 0 rgba(200,168,75,0.3);
+  transition: background 0.3s, box-shadow 0.3s, width 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cave-handle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(200,168,75,0.12), transparent 70%);
+}
+
+.cave-handle:hover {
+  background: linear-gradient(180deg, #2a1800, #150a00, #2a1800);
+  box-shadow: -6px 0 40px rgba(255,120,0,0.3), inset 0 1px 0 rgba(200,168,75,0.5);
+}
+
+.cave-rune {
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 6px rgba(200,168,75,0.8));
+  animation: runeGlow 2s ease-in-out infinite;
+}
+
+@keyframes runeGlow {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(200,168,75,0.5)); }
+  50% { filter: drop-shadow(0 0 10px rgba(200,168,75,1)) drop-shadow(0 0 20px rgba(255,150,0,0.6)); }
+}
+
+.cave-label {
+  font-family: var(--font-mono);
+  font-size: 0.45rem;
+  letter-spacing: 2px;
+  color: rgba(200,168,75,0.6);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.cave-stones {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: 4px;
+}
+
+.cave-stone {
+  width: 28px; height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgba(200,168,75,0.4), rgba(200,168,75,0.1));
+  animation: stoneFlicker 3s infinite;
+}
+
+.cave-stone:nth-child(2) { animation-delay: 0.5s; width: 22px; }
+.cave-stone:nth-child(3) { animation-delay: 1s; width: 25px; }
+
+@keyframes stoneFlicker {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ─── CAVE OVERLAY ───────────────────────────────────────── */
+#cave-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0);
+  transition: background 0.6s;
+}
+
+#cave-overlay.open {
+  display: flex;
+  background: rgba(0,0,0,0.92);
+}
+
+.cave-modal {
+  width: min(620px, 92vw);
+  position: relative;
+  opacity: 0;
+  transform: scale(0.85) translateY(30px);
+  transition: all 0.7s cubic-bezier(.23,1,.32,1);
+}
+
+#cave-overlay.open .cave-modal {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+/* DOOR STAGE */
+#door-stage {
+  position: relative;
+}
+
+.cave-arch {
+  width: 100%;
+  position: relative;
+}
+
+.cave-door-svg {
+  width: 100%;
+  max-height: 70vh;
+  display: block;
+}
+
+.door-close-btn {
+  position: absolute;
+  top: 10px; right: 10px;
+  background: rgba(200,168,75,0.1);
+  border: 1px solid rgba(200,168,75,0.3);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: none;
+  transition: all 0.3s;
+}
+
+.door-close-btn:hover {
+  background: rgba(200,168,75,0.2);
+  border-color: var(--gold);
+}
+
+.password-form {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+}
+
+.pw-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 4px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  opacity: 0.8;
+  display: block;
+}
+
+.pw-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pw-input {
+  flex: 1;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(200,168,75,0.4);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  outline: none;
+  text-align: center;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  caret-color: var(--gold);
+}
+
+.pw-input::placeholder { color: rgba(200,168,75,0.3); letter-spacing: 2px; }
+.pw-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(200,168,75,0.25), inset 0 0 10px rgba(200,168,75,0.05);
+}
+
+.pw-submit {
+  padding: 12px 18px;
+  background: linear-gradient(135deg, rgba(200,168,75,0.3), rgba(200,100,0,0.2));
+  border: 1px solid rgba(200,168,75,0.5);
+  border-radius: 6px;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  cursor: none;
+  transition: all 0.3s;
+  letter-spacing: 1px;
+}
+
+.pw-submit:hover {
+  background: linear-gradient(135deg, rgba(200,168,75,0.5), rgba(200,100,0,0.4));
+  box-shadow: 0 0 20px rgba(200,168,75,0.3);
+}
+
+.pw-error {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #ff4444;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  display: none;
+}
+
+/* HEAVEN REVEAL */
+#heaven-stage {
+  display: none;
+  text-align: center;
+}
+
+.heaven-bg {
+  background: radial-gradient(ellipse at 50% 0%, rgba(0,200,255,0.15), rgba(0,255,159,0.05) 40%, transparent 70%);
+  border: 1px solid rgba(0,200,255,0.25);
+  border-radius: 20px;
+  padding: 50px 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.heaven-bg::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--neon), var(--neon2), transparent);
+  animation: heavenLine 2s ease-in-out infinite;
+}
+
+@keyframes heavenLine {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.heaven-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.heaven-particle {
+  position: absolute;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: var(--neon);
+  animation: floatUp 4s infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(100%) scale(0); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(-100%) scale(1.5); opacity: 0; }
+}
+
+.heaven-title {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  letter-spacing: 5px;
+  color: var(--neon);
+  text-shadow: 0 0 20px var(--neon);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.heaven-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 4px;
+  color: var(--muted);
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.heaven-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  background: radial-gradient(circle, rgba(0,200,255,0.4), rgba(0,255,159,0.2));
+  border: 2px solid var(--neon);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  box-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0,200,255,0.3);
+  animation: avatarPulse 2s ease-in-out infinite;
+}
+
+@keyframes avatarPulse {
+  0%, 100% { box-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0,200,255,0.3); }
+  50% { box-shadow: 0 0 50px var(--neon), 0 0 100px rgba(0,200,255,0.5); }
+}
+
+.heaven-bio {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text);
+  margin-bottom: 30px;
+  font-weight: 300;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heaven-bio strong { color: var(--neon); }
+
+.heaven-links {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.heaven-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  border: 1px solid;
+  cursor: none;
+}
+
+.heaven-link.linkedin {
+  border-color: rgba(0,119,181,0.5);
+  background: rgba(0,119,181,0.1);
+  color: #0af;
+}
+
+.heaven-link.github {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
+  color: #ddd;
+}
+
+.heaven-link.email {
+  border-color: rgba(0,200,255,0.3);
+  background: rgba(0,200,255,0.08);
+  color: var(--neon);
+}
+
+.heaven-link.medium {
+  border-color: rgba(0,255,159,0.3);
+  background: rgba(0,255,159,0.06);
+  color: var(--neon2);
+}
+
+.heaven-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,200,255,0.2);
+  filter: brightness(1.3);
+}
+
+/* ─── DOOR OPEN ANIMATION ────────────────────────────────── */
+.door-panel {
+  transform-origin: left center;
+  transition: transform 1.5s cubic-bezier(.23,1,.32,1);
+}
+
+.door-panel.open {
+  transform: perspective(600px) rotateY(-80deg) translateX(-10px);
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── DIVIDER ─────────────────────────────────────────────── */
+.section-divider {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  opacity: 0.2;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+}
+
+.divider-glyph {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--neon);
+  letter-spacing: 3px;
+}
+
+/* GLOW LINES bg decorations */
+.glow-line-h {
+  position: fixed;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0,200,255,0.15) 30%, rgba(0,200,255,0.15) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ─── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--void); }
+::-webkit-scrollbar-thumb { background: rgba(0,200,255,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neon); }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  nav { padding: 14px 20px; }
+  .nav-links { gap: 20px; }
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .cave-handle { width: 46px; }
+  .heaven-links { gap: 10px; }
+}
+
+@media (max-width: 480px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .nav-links a { font-size: 0.65rem; }
+  .heaven-link { padding: 8px 14px; }
 }
 </style>
 </head>
-
 <body>
 
+<!-- ─── CUSTOM CURSOR ──────────────────────────────────── -->
+<div id="cursor-head"></div>
+
+<!-- ─── CIPHER RAIN ───────────────────────────────────── -->
+<canvas id="cipher-rain"></canvas>
+
+<!-- ─── STAR FIELD ────────────────────────────────────── -->
+<canvas id="starfield"></canvas>
+
+<!-- ─── CAVE DOOR BUTTON ──────────────────────────────── -->
+<div id="cave-btn">
+  <div class="cave-handle" id="cave-trigger">
+    <div class="cave-rune">🜃</div>
+    <div class="cave-label">Secret</div>
+    <div class="cave-stones">
+      <div class="cave-stone"></div>
+      <div class="cave-stone"></div>
+      <div class="cave-stone"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CAVE OVERLAY ──────────────────────────────────── -->
+<div id="cave-overlay">
+  <div class="cave-modal">
+
+    <!-- DOOR STAGE -->
+    <div id="door-stage">
+      <div class="cave-arch">
+        <svg class="cave-door-svg" viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="caveGlow" cx="50%" cy="0%" r="60%">
+              <stop offset="0%" stop-color="#c8a84b" stop-opacity="0.3"/>
+              <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+            </radialGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="strongGlow">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Cave background -->
+          <rect width="500" height="580" fill="#080400"/>
+          
+          <!-- Stone wall texture blocks -->
+          <g fill="none" stroke="#1a1000" stroke-width="1">
+            <!-- Row 1 -->
+            <rect x="0" y="0" width="120" height="55" fill="#0c0800" rx="2"/>
+            <rect x="122" y="0" width="130" height="55" fill="#0a0600" rx="2"/>
+            <rect x="254" y="0" width="115" height="55" fill="#0e0a00" rx="2"/>
+            <rect x="371" y="0" width="129" height="55" fill="#0b0700" rx="2"/>
+            <!-- Row 2 -->
+            <rect x="0" y="57" width="85" height="60" fill="#0d0900" rx="2"/>
+            <rect x="87" y="57" width="140" height="60" fill="#0a0600" rx="2"/>
+            <rect x="229" y="57" width="100" height="60" fill="#0c0800" rx="2"/>
+            <rect x="331" y="57" width="169" height="60" fill="#0e0a00" rx="2"/>
+            <!-- Row 3 -->
+            <rect x="0" y="119" width="110" height="55" fill="#0b0700" rx="2"/>
+            <rect x="112" y="119" width="95" height="55" fill="#0d0900" rx="2"/>
+            <rect x="400" y="119" width="100" height="55" fill="#0c0800" rx="2"/>
+            <!-- Row 4 bottom-->
+            <rect x="0" y="490" width="130" height="90" fill="#0a0600" rx="2"/>
+            <rect x="132" y="490" width="100" height="90" fill="#0d0900" rx="2"/>
+            <rect x="340" y="490" width="160" height="90" fill="#0b0700" rx="2"/>
+            <rect x="0" y="520" width="95" height="60" fill="#0c0800" rx="2"/>
+            <rect x="370" y="520" width="130" height="60" fill="#0e0a00" rx="2"/>
+          </g>
+
+          <!-- Cave arch frame (stone arch) -->
+          <path d="M 80 540 L 80 230 Q 80 80 250 80 Q 420 80 420 230 L 420 540 Z" 
+                fill="#1a0e00" stroke="#3d2800" stroke-width="3"/>
+          <!-- Arch detail inner -->
+          <path d="M 95 540 L 95 235 Q 95 100 250 100 Q 405 100 405 235 L 405 540 Z" 
+                fill="#0f0800" stroke="#2a1800" stroke-width="2"/>
+
+          <!-- Arch glow at top -->
+          <ellipse cx="250" cy="100" rx="150" ry="40" fill="url(#caveGlow)" opacity="0.8"/>
+
+          <!-- Torch left -->
+          <rect x="92" y="190" width="12" height="30" fill="#5a3800" rx="2"/>
+          <ellipse cx="98" cy="185" rx="8" ry="6" fill="#ff8c00" filter="url(#glow)" opacity="0.9"/>
+          <ellipse cx="98" cy="180" rx="5" ry="8" fill="#ffcc00" filter="url(#strongGlow)" opacity="0.8"/>
+
+          <!-- Torch right -->
+          <rect x="396" y="190" width="12" height="30" fill="#5a3800" rx="2"/>
+          <ellipse cx="402" cy="185" rx="8" ry="6" fill="#ff8c00" filter="url(#glow)" opacity="0.9"/>
+          <ellipse cx="402" cy="180" rx="5" ry="8" fill="#ffcc00" filter="url(#strongGlow)" opacity="0.8"/>
+
+          <!-- THE DOOR itself (two panels) -->
+          <g id="door-left-panel" class="door-panel" style="transform-origin: 105px 300px;">
+            <rect x="105" y="175" width="140" height="365" fill="#2a1500" rx="4" stroke="#5a3800" stroke-width="2"/>
+            <!-- Door planks -->
+            <line x1="105" y1="230" x2="245" y2="230" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="105" y1="290" x2="245" y2="290" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="105" y1="350" x2="245" y2="350" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="105" y1="410" x2="245" y2="410" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="105" y1="470" x2="245" y2="470" stroke="#1a0d00" stroke-width="1.5"/>
+            <!-- Iron bands -->
+            <rect x="108" y="210" width="134" height="12" fill="#1a0a00" rx="2" stroke="#3d2200" stroke-width="1"/>
+            <rect x="108" y="448" width="134" height="12" fill="#1a0a00" rx="2" stroke="#3d2200" stroke-width="1"/>
+            <!-- Left door ornament -->
+            <circle cx="220" cy="355" r="12" fill="#2d1a00" stroke="#c8a84b" stroke-width="1.5" filter="url(#glow)"/>
+            <circle cx="220" cy="355" r="7" fill="#c8a84b" opacity="0.5" filter="url(#glow)"/>
+          </g>
+
+          <g id="door-right-panel" class="door-panel" style="transform-origin: 395px 300px;">
+            <rect x="255" y="175" width="140" height="365" fill="#2a1500" rx="4" stroke="#5a3800" stroke-width="2"/>
+            <line x1="255" y1="230" x2="395" y2="230" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="255" y1="290" x2="395" y2="290" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="255" y1="350" x2="395" y2="350" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="255" y1="410" x2="395" y2="410" stroke="#1a0d00" stroke-width="1.5"/>
+            <line x1="255" y1="470" x2="395" y2="470" stroke="#1a0d00" stroke-width="1.5"/>
+            <rect x="258" y="210" width="134" height="12" fill="#1a0a00" rx="2" stroke="#3d2200" stroke-width="1"/>
+            <rect x="258" y="448" width="134" height="12" fill="#1a0a00" rx="2" stroke="#3d2200" stroke-width="1"/>
+            <!-- Right door handle -->
+            <circle cx="276" cy="355" r="12" fill="#2d1a00" stroke="#c8a84b" stroke-width="1.5" filter="url(#glow)"/>
+            <circle cx="276" cy="355" r="7" fill="#c8a84b" opacity="0.5" filter="url(#glow)"/>
+          </g>
+
+          <!-- Lock mechanism center -->
+          <circle cx="250" cy="355" r="18" fill="#1a0d00" stroke="#c8a84b" stroke-width="2" filter="url(#glow)"/>
+          <circle cx="250" cy="355" r="10" fill="none" stroke="#c8a84b" stroke-width="1.5" opacity="0.7"/>
+          <text x="250" y="360" text-anchor="middle" fill="#c8a84b" font-size="10" filter="url(#glow)">⚿</text>
+
+          <!-- Runes above door -->
+          <text x="250" y="145" text-anchor="middle" fill="#c8a84b" font-size="13" 
+                font-family="serif" letter-spacing="8" filter="url(#glow)" opacity="0.8">
+            ᚺᛖᛚᛚᛟ
+          </text>
+          <text x="250" y="163" text-anchor="middle" fill="#8a6030" font-size="8" 
+                letter-spacing="6" opacity="0.6">SPEAK THE WORDS</text>
+
+          <!-- Ground stones -->
+          <ellipse cx="250" cy="542" rx="180" ry="15" fill="#0a0600" stroke="#1a0e00" stroke-width="1"/>
+          <ellipse cx="170" cy="542" rx="50" ry="8" fill="#0d0900"/>
+          <ellipse cx="330" cy="542" rx="60" ry="8" fill="#0c0800"/>
+
+          <!-- Ambient torch glow on floor -->
+          <ellipse cx="98" cy="540" rx="60" ry="8" fill="#ff6600" opacity="0.06"/>
+          <ellipse cx="402" cy="540" rx="60" ry="8" fill="#ff6600" opacity="0.06"/>
+        </svg>
+      </div>
+
+      <button class="door-close-btn" id="close-cave">✕ RETREAT</button>
+
+      <div class="password-form">
+        <span class="pw-label">🜃 Speak the ancient words to enter</span>
+        <div class="pw-input-wrap">
+          <input type="text" class="pw-input" id="pw-input" 
+                 placeholder="••••••••••••" autocomplete="off" maxlength="30"/>
+          <button class="pw-submit" id="pw-submit">ENTER</button>
+        </div>
+        <div class="pw-error" id="pw-error">⚠ The door does not yield. Try again.</div>
+      </div>
+    </div>
+
+    <!-- HEAVEN STAGE -->
+    <div id="heaven-stage">
+      <div class="heaven-bg">
+        <div class="heaven-particles" id="heaven-particles"></div>
+
+        <div class="heaven-title">✦ WELCOME, TRAVELLER ✦</div>
+        <div class="heaven-subtitle">Access Granted · The Vault Opens</div>
+
+        <div class="heaven-avatar">🧠</div>
+
+        <p class="heaven-bio">
+          I'm <strong>Adarsh Pandey</strong> — a <strong>Data Scientist</strong> and 
+          <strong>Cryptography enthusiast</strong> currently pursuing a 
+          <strong>BS in Data Science & Applications at IIT Madras</strong>. 
+          I transitioned from Mechanical Engineering and found my calling in 
+          mathematics, algorithms, and the hidden language of data. 
+          I believe that <strong>every pattern hides a secret</strong> — 
+          and I'm here to decode them.
+        </p>
+
+        <div class="heaven-links">
+          <a href="https://www.linkedin.com/in/adarshs-pandey-192003sa/" 
+             target="_blank" class="heaven-link linkedin">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+            LinkedIn
+          </a>
+          <a href="https://github.com/Adarsh-Pandey1915" 
+             target="_blank" class="heaven-link github">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="mailto:pandeyadarsh0013@gmail.com" 
+             class="heaven-link email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            Email Me
+          </a>
+          <a href="https://medium.com/@pandeyadarsh1915_71869" 
+             target="_blank" class="heaven-link medium">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="5" cy="12" r="4"/>
+              <ellipse cx="16" cy="12" rx="4" ry="7"/>
+              <line x1="21" y1="5" x2="21" y2="19"/>
+            </svg>
+            Medium
+          </a>
+        </div>
+
+        <button class="door-close-btn" 
+                style="position:relative;top:auto;right:auto;margin-top:28px;display:block;margin-left:auto;margin-right:auto;" 
+                id="close-heaven">
+          ✕ SEAL THE VAULT
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── NAV ───────────────────────────────────────────────── -->
 <nav>
-  <a href="#about">About</a>
-  <a href="#skills">Skills</a>
-  <a href="#projects">Projects</a>
-  <a href="#contact">Contact</a>
+  <div class="nav-logo">A<span>.</span>PANDEY</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
 
-<section class="hero">
-  <h1>Adarsh <span>Pandey</span></h1>
-  <p>BS Data Science • IIT Madras • Mathematics Enthusiast</p>
-</section>
+<!-- ─── PAGE CONTENT ──────────────────────────────────────── -->
+<div class="page-wrap">
 
-<section id="about">
-  <div class="card">
-    <h2>About Me</h2>
-    <p style="margin-top:15px">
-      I am currently pursuing a <strong>BS in Data Science & Applications</strong> from
-      <strong>IIT Madras</strong>. I transitioned into data science after completing a
-      <strong>Diploma in Mechanical Engineering</strong> from Government Polytechnic Lucknow.
-      My core strengths lie in mathematics, statistics, and analytical problem-solving.
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-eyebrow">⟨ Data Scientist · Cryptographer · IIT Madras ⟩</div>
+    <h1 class="hero-name">
+      <div class="first">ADARSH</div>
+      <div class="last">PANDEY</div>
+    </h1>
+    <p class="hero-tagline">
+      Decoding the universe — one <em>equation</em> at a time
     </p>
-  </div>
-</section>
-
-<section id="skills">
-  <h2 style="margin-bottom:20px">Technical Skills</h2>
-  <div class="card">
-    <div class="skills">
-      <span class="skill">Python</span>
-      <span class="skill">Java</span>
-      <span class="skill">Statistics</span>
-      <span class="skill">Linear Algebra</span>
-      <span class="skill">Probability</span>
-      <span class="skill">Machine Learning</span>
-      <span class="skill">Data Analysis</span>
-      <span class="skill">Regression Models</span>
-      <span class="skill">Communication</span>
-      <span class="skill">Kinematic Analysis</span>
-      <span class="skill">Balancing & Vibration Analysis</span>
-      <span class="skill">Fluid Mechanics</span>
-      <span class="skill">Metrology & Quality Control</span>
-      <span class="skill">Finite Element Analysis (FEA)</span>
+    <div class="hero-cipher-bar">
+      01000001 · 01000100 · 01000001 · 01010010 · 01010011 · 01001000
     </div>
-  </div>
-</section>
 
-<section id="projects">
-  <h2 style="margin-bottom:20px">Projects</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Exploratory Data Analysis</h3>
-      <p style="margin-top:10px">
-        Performed statistical analysis and visualization on real-world datasets using Python.
-      </p>
+    <div class="hint-strip">
+      <span class="hint-glow"></span>
+      The secret door awaits. The key is the <em>first words ever spoken to a machine</em>.
     </div>
-    <div class="card">
-      <h3>Machine Learning Models</h3>
-      <p style="margin-top:10px">
-        Implemented regression models, evaluated performance, and interpreted results.
-      </p>
-    </div>
-  </div>
-</section>
 
-<section id="contact">
-  <h2 style="margin-bottom:20px">Contact</h2>
-  <div class="card">
-    <p>Email: <a href="mailto:pandeyadarsh0013@gmail.com">pandeyadarsh0013@gmail.com</a></p>
-    <p>LinkedIn:
-      <a href="https://www.linkedin.com/in/adarshs-pandey-192003sa/" target="_blank" rel="noopener noreferrer">
-        LinkedIn Profile
+    <div class="scroll-cue">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-glyph">⟡ 001 ⟡</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-label">// who_am_i.decrypt()</div>
+    <h2 class="section-title">About Me</h2>
+
+    <div class="about-grid">
+      <div class="card about-card-main">
+        <div class="card-corner">NODE_01</div>
+        <p>
+          I am pursuing a <strong>BS in Data Science & Applications</strong> at 
+          <strong>IIT Madras</strong> — India's premier institution. My journey began 
+          with a <strong>Diploma in Mechanical Engineering</strong> from Government 
+          Polytechnic Lucknow, where I discovered my passion for analytical thinking.
+        </p>
+        <br>
+        <p>
+          Today I work at the intersection of <strong>mathematics, statistics, 
+          and computational intelligence</strong>. I am fascinated by 
+          <strong>cryptography</strong> — the art of hidden information — and how 
+          mathematical structures can protect, encode, and reveal truth.
+        </p>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="stat-num">IIT</span>
+          <span class="stat-label">Madras · DS&AI</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Curiosity Level</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">2</span>
+          <span class="stat-label">Disciplines Merged</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-num">01</span>
+          <span class="stat-label">Mission: Decrypt</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-glyph">⟡ 002 ⟡</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="section-label">// skills.load()</div>
+    <h2 class="section-title">Technical Arsenal</h2>
+
+    <div class="skills-grid" style="grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));">
+      <div class="card skill-category">
+        <div class="card-corner">MODULE_A</div>
+        <h4>Data & AI</h4>
+        <span class="skill-pill pill-blue">Python</span>
+        <span class="skill-pill pill-blue">Machine Learning</span>
+        <span class="skill-pill pill-blue">Statistics</span>
+        <span class="skill-pill pill-blue">Statistical Data Analysis</span>
+        <span class="skill-pill pill-blue">EDA</span>
+        <span class="skill-pill pill-blue">Regression Models</span>
+        <span class="skill-pill pill-blue">Linear Algebra</span>
+        <span class="skill-pill pill-blue">Probability</span>
+        <span class="skill-pill pill-blue">Mathematics</span>
+      </div>
+
+      <div class="card skill-category">
+        <div class="card-corner">MODULE_B</div>
+        <h4>GenAI & Security</h4>
+        <span class="skill-pill pill-green">Generative AI</span>
+        <span class="skill-pill pill-green">LLMs</span>
+        <span class="skill-pill pill-green">RAG</span>
+        <span class="skill-pill pill-green">Artificial Intelligence</span>
+        <span class="skill-pill pill-green">Cybersecurity</span>
+        <span class="skill-pill pill-green">Phishing Detection</span>
+        <span class="skill-pill pill-green">Threat Analysis</span>
+        <span class="skill-pill pill-green">Security Awareness</span>
+        <span class="skill-pill pill-green">Cryptography</span>
+      </div>
+
+      <div class="card skill-category">
+        <div class="card-corner">MODULE_C</div>
+        <h4>Dev & Tools</h4>
+        <span class="skill-pill pill-gold">Java</span>
+        <span class="skill-pill pill-gold">HTML5</span>
+        <span class="skill-pill pill-gold">CSS</span>
+        <span class="skill-pill pill-gold">Streamlit</span>
+        <span class="skill-pill pill-gold">APIs</span>
+        <span class="skill-pill pill-gold">Vercel</span>
+        <span class="skill-pill pill-gold">Render</span>
+        <span class="skill-pill pill-gold">Git / GitHub</span>
+        <span class="skill-pill pill-gold">Pandas · NumPy · Matplotlib</span>
+      </div>
+
+      <div class="card skill-category">
+        <div class="card-corner">MODULE_D</div>
+        <h4>Engineering</h4>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Kinematic Analysis</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Fluid Mechanics</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">FEA</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Metrology & QC</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Balancing & Vibration</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Communication</span>
+        <span class="skill-pill" style="background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,0.3);color:#ff8c5a;">Mentoring</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-glyph">⟡ 003 ⟡</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="section-label">// projects.execute()</div>
+    <h2 class="section-title">Work & Projects</h2>
+
+    <div class="projects-grid">
+
+      <!-- FEATURED PROJECT -->
+      <div class="card project-card" style="grid-column: 1 / -1; border-color: rgba(0,255,159,0.3); background: linear-gradient(135deg, rgba(0,255,159,0.06), rgba(0,5,15,0.5));">
+        <div class="project-num" style="color:rgba(0,255,159,0.05);">00</div>
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:6px;">
+          <span class="project-icon" style="margin-bottom:0;">🏥</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;letter-spacing:3px;color:var(--neon2);border:1px solid rgba(0,255,159,0.4);padding:3px 10px;border-radius:3px;text-transform:uppercase;">✦ Featured Project</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;letter-spacing:2px;color:var(--muted);margin-left:auto;">Mar 2026 – Apr 2026</span>
+        </div>
+        <h3 style="color:var(--neon2);font-size:1.3rem;">AI-Powered Disease Prediction System</h3>
+        <p style="margin-top:12px;line-height:1.8;color:var(--text);">
+          A healthcare-focused full-stack web application using <strong style="color:var(--neon2);">Machine Learning</strong> and the 
+          <strong style="color:var(--neon2);">Gemini API</strong> to predict possible diseases from user-reported symptoms and deliver 
+          AI-assisted health guidance. Built the frontend in HTML/CSS and engineered the backend with Python — featuring 
+          <strong style="color:var(--neon);">symptom-based prediction</strong>, 
+          <strong style="color:var(--neon);">downloadable medical reports</strong>, 
+          and a <strong style="color:var(--neon);">prototype doctor-appointment interface</strong>. 
+          Deployed end-to-end on <strong style="color:var(--gold);">Render</strong> and <strong style="color:var(--gold);">Vercel</strong>.
+        </p>
+        <div class="project-tags" style="margin-top:18px;">
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">Python</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">Machine Learning</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">Gemini API</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">HTML5 · CSS</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">REST APIs</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">Vercel</span>
+          <span class="project-tag" style="border-color:rgba(0,255,159,0.4);color:var(--neon2);">Render</span>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <div class="project-num">01</div>
+        <span class="project-icon">🔬</span>
+        <h3>Exploratory Data Analysis</h3>
+        <p>Deep statistical analysis and rich visualizations on real-world datasets. Uncovered hidden patterns through Python-based EDA pipelines using Pandas, NumPy and Matplotlib.</p>
+        <div class="project-tags">
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Statistics</span>
+          <span class="project-tag">Pandas · NumPy</span>
+          <span class="project-tag">Matplotlib</span>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <div class="project-num">02</div>
+        <span class="project-icon">🤖</span>
+        <h3>Machine Learning Models</h3>
+        <p>Implemented and evaluated regression models end-to-end — from feature engineering to performance interpretation and optimization.</p>
+        <div class="project-tags">
+          <span class="project-tag">ML</span>
+          <span class="project-tag">Regression</span>
+          <span class="project-tag">Evaluation</span>
+          <span class="project-tag">Scikit-learn</span>
+        </div>
+      </div>
+
+      <div class="card project-card">
+        <div class="project-num">03</div>
+        <span class="project-icon">🔐</span>
+        <h3>Cryptography Research</h3>
+        <p>Exploring the mathematical foundations of encryption — ciphers, number theory, and the elegant security of modern cryptographic systems.</p>
+        <div class="project-tags">
+          <span class="project-tag">Cryptography</span>
+          <span class="project-tag">Math</span>
+          <span class="project-tag">Research</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-glyph">⟡ 004 ⟡</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <section class="section" id="certs">
+    <div class="section-label">// certifications.verify()</div>
+    <h2 class="section-title">Certifications</h2>
+
+    <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;">
+
+      <div class="card" style="border-color:rgba(0,200,255,0.25);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--neon),transparent);border-radius:2px 0 0 2px;"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="font-size:1.8rem;">🛡️</span>
+          <span style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:3px;color:var(--neon);border:1px solid rgba(0,200,255,0.3);padding:3px 8px;border-radius:3px;">VERIFIED</span>
+        </div>
+        <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--text);margin-bottom:8px;">Cybersecurity Job Simulation</h3>
+        <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);letter-spacing:1px;margin-bottom:12px;">FORAGE · VIRTUAL EXPERIENCE</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--neon);border:1px solid rgba(0,200,255,0.2);padding:2px 8px;border-radius:3px;">Phishing Detection</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--neon);border:1px solid rgba(0,200,255,0.2);padding:2px 8px;border-radius:3px;">Threat Analysis</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--neon);border:1px solid rgba(0,200,255,0.2);padding:2px 8px;border-radius:3px;">Security Awareness</span>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:rgba(200,168,75,0.25);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--gold),transparent);border-radius:2px 0 0 2px;"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="font-size:1.8rem;">☁️</span>
+          <span style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:3px;color:var(--gold);border:1px solid rgba(200,168,75,0.3);padding:3px 8px;border-radius:3px;">VERIFIED</span>
+        </div>
+        <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--text);margin-bottom:8px;">OCI Generative AI Professional</h3>
+        <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);letter-spacing:1px;margin-bottom:12px;">ORACLE CLOUD INFRASTRUCTURE</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--gold);border:1px solid rgba(200,168,75,0.2);padding:2px 8px;border-radius:3px;">Generative AI</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--gold);border:1px solid rgba(200,168,75,0.2);padding:2px 8px;border-radius:3px;">LLMs</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--gold);border:1px solid rgba(200,168,75,0.2);padding:2px 8px;border-radius:3px;">RAG</span>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:rgba(0,255,159,0.25);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--neon2),transparent);border-radius:2px 0 0 2px;"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="font-size:1.8rem;">🤖</span>
+          <span style="font-family:var(--font-mono);font-size:0.55rem;letter-spacing:3px;color:var(--neon2);border:1px solid rgba(0,255,159,0.3);padding:3px 8px;border-radius:3px;">VERIFIED</span>
+        </div>
+        <h3 style="font-family:var(--font-head);font-size:1rem;color:var(--text);margin-bottom:8px;">AI Fundamentals</h3>
+        <p style="font-family:var(--font-mono);font-size:0.65rem;color:var(--muted);letter-spacing:1px;margin-bottom:12px;">AI FUNDAMENTALS CERTIFICATION</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;">
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--neon2);border:1px solid rgba(0,255,159,0.2);padding:2px 8px;border-radius:3px;">Artificial Intelligence</span>
+          <span style="font-family:var(--font-mono);font-size:0.58rem;color:var(--neon2);border:1px solid rgba(0,255,159,0.2);padding:2px 8px;border-radius:3px;">ML Concepts</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="section-divider">
+    <div class="divider-line"></div>
+    <div class="divider-glyph">⟡ 005 ⟡</div>
+    <div class="divider-line"></div>
+  </div>
+  <section class="section" id="contact">
+    <div class="section-label">// contact.init()</div>
+    <h2 class="section-title">Get In Touch</h2>
+
+    <div class="contact-grid">
+      <a href="mailto:pandeyadarsh0013@gmail.com" class="contact-item">
+        <div class="contact-icon">✉</div>
+        <div>
+          <span class="contact-label">Email</span>
+          <span class="contact-value">pandeyadarsh0013@gmail.com</span>
+        </div>
       </a>
-    </p>
-    <p>GitHub: <a href="https://github.com/Adarsh-Pandey1915" target="_blank">GitHub</a></p>
-    <p>Blog: <a href="https://medium.com/@pandeyadarsh1915_71869" target="_blank">Medium</a></p>
-  </div>
-</section>
+      <a href="https://www.linkedin.com/in/adarshs-pandey-192003sa/" 
+         target="_blank" rel="noopener" class="contact-item">
+        <div class="contact-icon">in</div>
+        <div>
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value">adarshs-pandey</span>
+        </div>
+      </a>
+      <a href="https://github.com/Adarsh-Pandey1915" 
+         target="_blank" class="contact-item">
+        <div class="contact-icon">⌥</div>
+        <div>
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">Adarsh-Pandey1915</span>
+        </div>
+      </a>
+      <a href="https://medium.com/@pandeyadarsh1915_71869" 
+         target="_blank" class="contact-item">
+        <div class="contact-icon">✍</div>
+        <div>
+          <span class="contact-label">Medium Blog</span>
+          <span class="contact-value">@pandeyadarsh1915</span>
+        </div>
+      </a>
+    </div>
+  </section>
 
+</div><!-- end page-wrap -->
+
+<!-- FOOTER -->
 <footer>
-  © 2026 Adarsh Pandey. All rights reserved.
+  <div class="footer-logo">A · P</div>
+  <div class="footer-copy">© 2026 ADARSH PANDEY · ALL RIGHTS RESERVED · BUILT WITH ∫ MATHEMATICS</div>
 </footer>
 
+
+<!-- ─────────────────── SCRIPTS ─────────────────────── -->
+<script>
+/* ══════════════════════════════════════
+   1. CURSOR COMET TRAIL
+══════════════════════════════════════ */
+const cursorHead = document.getElementById('cursor-head');
+const TRAIL_LENGTH = 22;
+const trail = [];
+
+// Create trail dots
+for (let i = 0; i < TRAIL_LENGTH; i++) {
+  const dot = document.createElement('div');
+  dot.classList.add('trail-dot');
+  const progress = i / TRAIL_LENGTH;
+  const size = Math.max(1.5, 14 * (1 - progress));
+  dot.style.cssText = `
+    width: ${size}px;
+    height: ${size}px;
+    background: radial-gradient(circle, 
+      rgba(0,200,255,${0.9 - progress * 0.85}), 
+      rgba(0,150,255,${0.4 - progress * 0.4}) 50%,
+      transparent);
+    box-shadow: 0 0 ${8 - progress * 6}px rgba(0,200,255,${0.5 - progress * 0.45});
+  `;
+  document.body.appendChild(dot);
+  trail.push({ el: dot, x: -100, y: -100 });
+}
+
+let mouseX = -200, mouseY = -200;
+let positions = Array(TRAIL_LENGTH).fill({ x: -200, y: -200 });
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursorHead.style.left = mouseX + 'px';
+  cursorHead.style.top  = mouseY + 'px';
+});
+
+document.addEventListener('mousedown', () => cursorHead.classList.add('clicking'));
+document.addEventListener('mouseup',   () => cursorHead.classList.remove('clicking'));
+
+function animateTrail() {
+  positions = [{ x: mouseX, y: mouseY }, ...positions.slice(0, TRAIL_LENGTH - 1)];
+  trail.forEach((dot, i) => {
+    const p = positions[i] || { x: -200, y: -200 };
+    dot.el.style.left = p.x + 'px';
+    dot.el.style.top  = p.y + 'px';
+  });
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
+
+
+/* ══════════════════════════════════════
+   2. STAR FIELD
+══════════════════════════════════════ */
+const sfCanvas = document.getElementById('starfield');
+const sfCtx = sfCanvas.getContext('2d');
+let stars = [];
+
+function resizeStarfield() {
+  sfCanvas.width  = window.innerWidth;
+  sfCanvas.height = window.innerHeight;
+  stars = Array.from({ length: 160 }, () => ({
+    x: Math.random() * sfCanvas.width,
+    y: Math.random() * sfCanvas.height,
+    r: Math.random() * 1.3,
+    o: Math.random() * 0.6 + 0.1,
+    speed: Math.random() * 0.3 + 0.05,
+    twinkleSpeed: Math.random() * 0.01 + 0.003,
+    twinkleOffset: Math.random() * Math.PI * 2,
+  }));
+}
+
+resizeStarfield();
+window.addEventListener('resize', resizeStarfield);
+
+let sfTime = 0;
+function drawStars() {
+  sfCtx.clearRect(0, 0, sfCanvas.width, sfCanvas.height);
+  sfTime += 0.01;
+  stars.forEach(s => {
+    const twinkle = 0.5 + 0.5 * Math.sin(sfTime * s.twinkleSpeed * 100 + s.twinkleOffset);
+    sfCtx.beginPath();
+    sfCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    sfCtx.fillStyle = `rgba(150,220,255,${s.o * twinkle})`;
+    sfCtx.fill();
+    s.y -= s.speed;
+    if (s.y < -2) { s.y = sfCanvas.height + 2; s.x = Math.random() * sfCanvas.width; }
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+
+/* ══════════════════════════════════════
+   3. CIPHER RAIN (Matrix-style)
+══════════════════════════════════════ */
+const rainCanvas = document.getElementById('cipher-rain');
+const rainCtx = rainCanvas.getContext('2d');
+const CIPHER_CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ⌀∑∏∫√∞≠≡∈∉⊂⊃∪∩';
+let rainCols = [];
+
+function resizeRain() {
+  rainCanvas.width  = window.innerWidth;
+  rainCanvas.height = window.innerHeight;
+  const cols = Math.floor(rainCanvas.width / 18);
+  rainCols = Array.from({ length: cols }, () => ({
+    y: Math.random() * -100,
+    speed: Math.random() * 1.2 + 0.4,
+    opacity: Math.random() * 0.6 + 0.1,
+    chars: Array.from({ length: 20 }, () => CIPHER_CHARS[Math.floor(Math.random() * CIPHER_CHARS.length)]),
+    changeRate: Math.random() * 0.05 + 0.01,
+  }));
+}
+
+resizeRain();
+window.addEventListener('resize', resizeRain);
+
+function drawRain() {
+  rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+  rainCtx.font = '13px "Share Tech Mono", monospace';
+  rainCols.forEach((col, i) => {
+    col.chars.forEach((ch, j) => {
+      const y = col.y + j * 18;
+      if (y > 0 && y < rainCanvas.height) {
+        const fade = 1 - j / col.chars.length;
+        rainCtx.fillStyle = j === 0
+          ? `rgba(200,255,255,${col.opacity * 0.9})`
+          : `rgba(0,200,255,${fade * col.opacity * 0.6})`;
+        rainCtx.fillText(ch, i * 18, y);
+      }
+      if (Math.random() < col.changeRate) {
+        col.chars[j] = CIPHER_CHARS[Math.floor(Math.random() * CIPHER_CHARS.length)];
+      }
+    });
+    col.y += col.speed;
+    if (col.y > rainCanvas.height + col.chars.length * 18) {
+      col.y = -col.chars.length * 18 - Math.random() * 200;
+    }
+  });
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
+
+/* ══════════════════════════════════════
+   4. SCROLL REVEAL
+══════════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+
+/* ══════════════════════════════════════
+   5. CAVE DOOR / SECRET VAULT
+══════════════════════════════════════ */
+const caveTrigger  = document.getElementById('cave-trigger');
+const caveOverlay  = document.getElementById('cave-overlay');
+const closeCave    = document.getElementById('close-cave');
+const closeHeaven  = document.getElementById('close-heaven');
+const pwInput      = document.getElementById('pw-input');
+const pwSubmit     = document.getElementById('pw-submit');
+const pwError      = document.getElementById('pw-error');
+const doorStage    = document.getElementById('door-stage');
+const heavenStage  = document.getElementById('heaven-stage');
+const leftPanel    = document.getElementById('door-left-panel');
+const rightPanel   = document.getElementById('door-right-panel');
+
+const PASSWORD = 'hello world';
+let caveOpen = false;
+
+caveTrigger.addEventListener('click', () => {
+  caveOverlay.style.display = 'flex';
+  setTimeout(() => caveOverlay.classList.add('open'), 10);
+  caveOpen = true;
+  doorStage.style.display = 'block';
+  heavenStage.style.display = 'none';
+  leftPanel.classList.remove('open');
+  rightPanel.classList.remove('open');
+  pwInput.value = '';
+  pwError.style.display = 'none';
+  document.body.style.overflow = 'hidden';
+});
+
+function closeCaveOverlay() {
+  caveOverlay.classList.remove('open');
+  setTimeout(() => {
+    caveOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+    caveOpen = false;
+  }, 600);
+}
+
+closeCave.addEventListener('click', closeCaveOverlay);
+closeHeaven.addEventListener('click', closeCaveOverlay);
+
+caveOverlay.addEventListener('click', (e) => {
+  if (e.target === caveOverlay) closeCaveOverlay();
+});
+
+function tryPassword() {
+  const val = pwInput.value.trim().toLowerCase();
+  if (val === PASSWORD) {
+    // OPEN THE DOORS
+    leftPanel.style.cssText  = `transform-origin: 105px 300px; transform: perspective(600px) rotateY(-80deg) translateX(-10px); transition: transform 1.5s cubic-bezier(.23,1,.32,1);`;
+    rightPanel.style.cssText = `transform-origin: 395px 300px; transform: perspective(600px) rotateY(80deg) translateX(10px); transition: transform 1.5s cubic-bezier(.23,1,.32,1);`;
+    pwError.style.display = 'none';
+
+    setTimeout(() => {
+      doorStage.style.display = 'none';
+      heavenStage.style.display = 'block';
+      spawnHeavenParticles();
+    }, 1600);
+  } else {
+    pwError.style.display = 'block';
+    pwInput.style.borderColor = '#ff4444';
+    pwInput.style.boxShadow   = '0 0 20px rgba(255,68,68,0.3)';
+    setTimeout(() => {
+      pwInput.style.borderColor = '';
+      pwInput.style.boxShadow   = '';
+    }, 1200);
+    // shake
+    pwInput.animate([
+      { transform: 'translateX(0)' },
+      { transform: 'translateX(-10px)' },
+      { transform: 'translateX(10px)' },
+      { transform: 'translateX(-6px)' },
+      { transform: 'translateX(0)' },
+    ], { duration: 400, easing: 'ease-out' });
+  }
+}
+
+pwSubmit.addEventListener('click', tryPassword);
+pwInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryPassword(); });
+
+function spawnHeavenParticles() {
+  const container = document.getElementById('heaven-particles');
+  container.innerHTML = '';
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('div');
+    p.classList.add('heaven-particle');
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      bottom: 0;
+      animation-delay: ${Math.random() * 3}s;
+      animation-duration: ${3 + Math.random() * 3}s;
+      background: ${Math.random() > 0.5 ? 'var(--neon)' : 'var(--neon2)'};
+      width: ${1 + Math.random() * 3}px;
+      height: ${1 + Math.random() * 3}px;
+    `;
+    container.appendChild(p);
+  }
+}
+
+
+/* ══════════════════════════════════════
+   6. TORCH FLICKER ANIMATION (SVG)
+══════════════════════════════════════ */
+// Torch flame flicker via JS on SVG elements
+const torchFlicker = () => {
+  const torches = document.querySelectorAll('.cave-door-svg ellipse[fill="#ffcc00"]');
+  torches.forEach(t => {
+    const scale = 0.8 + Math.random() * 0.5;
+    const tx = (Math.random() - 0.5) * 3;
+    t.setAttribute('transform', `translate(${tx}, 0) scale(1, ${scale})`);
+  });
+};
+setInterval(torchFlicker, 120);
+</script>
 </body>
 </html>
